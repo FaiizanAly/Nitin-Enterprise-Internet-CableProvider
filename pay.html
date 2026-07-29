@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ============================================================
+       META & SEO
+  ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>Pay Now | Nitin Enterprise</title>
+  <meta name="description"  content="Pay your Internet or Cable TV bill to Nitin Enterprise via UPI. Enter amount, generate QR or open UPI app." />
+  <meta name="keywords"     content="Nitin Enterprise pay, UPI payment, QR code, Internet bill Rudrapur" />
+  <meta name="theme-color"  content="#16A34A" />
+  <meta name="robots"       content="noindex, follow" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="NE Pay" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons (v0.263+) — zero-dependency icon library -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <!-- QRCode.js — client-side QR generator, no API key needed -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+          integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSe2HFKmm4HMkq1orFIouzetYkYB/TSGmEpQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+          defer></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="pay.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       LOADING SCREEN
+       Fades out automatically once the page is fully ready.
+  ============================================================ -->
+  <div id="loading-screen" class="loading-screen" aria-hidden="true" role="presentation">
+    <div class="loading-screen__card">
+      <div class="loading-screen__logo">NE</div>
+      <p class="loading-screen__title">Nitin Enterprise</p>
+      <p class="loading-screen__sub">Internet &amp; Cable Provider</p>
+      <div class="loading-screen__track" role="progressbar" aria-label="Loading">
+        <div class="loading-screen__fill"></div>
+      </div>
+      <p class="loading-screen__label">Loading&hellip;</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TOAST NOTIFICATION
+  ============================================================ -->
+  <div id="toast" class="toast" role="alert" aria-live="polite" aria-atomic="true">
+    <i data-lucide="check-circle" class="toast__icon" aria-hidden="true"></i>
+    <span id="toast-message">Done!</span>
+  </div>
+
+  <!-- ============================================================
+       STICKY TOP BAR
+  ============================================================ -->
+  <header class="top-bar" role="banner">
+    <!-- Back to landing page -->
+    <a href="index.html" class="top-bar__back" aria-label="Back to home">
+      <i data-lucide="chevron-left" aria-hidden="true"></i>
+    </a>
+
+    <!-- Brand center -->
+    <div class="top-bar__center">
+      <div class="top-bar__logo" aria-hidden="true">NE</div>
+      <div class="top-bar__titles">
+        <span class="top-bar__name">Nitin Enterprise</span>
+        <span class="top-bar__sub">UPI Payment</span>
+      </div>
+    </div>
+
+    <!-- Reset button -->
+    <button
+      id="btn-reset"
+      class="top-bar__reset"
+      type="button"
+      onclick="resetAll()"
+      aria-label="Reset all payment fields"
+      title="Reset"
+    >
+      <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+      <span>Reset</span>
+    </button>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main id="main" class="main">
+
+    <!-- ==================== HOW TO PAY ==================== -->
+
+    <!-- ===== DESKTOP: 2-column payment grid ===== -->
+    <div class="pay-grid">
+
+      <!-- LEFT COLUMN: instruction + input fields -->
+      <div class="pay-grid__left">
+
+    <section class="card how-to-pay" aria-labelledby="how-to-pay-heading">
+      <div class="how-to-pay__header">
+        <i data-lucide="info" class="how-to-pay__icon" aria-hidden="true"></i>
+        <h2 class="how-to-pay__heading" id="how-to-pay-heading">How to Pay</h2>
+      </div>
+      <ol class="steps" aria-label="Payment steps">
+        <li class="step">
+          <div class="step__num" aria-hidden="true">1</div>
+          <div class="step__body">
+            <p class="step__text">Enter your <strong>name</strong> and the <strong>payment amount</strong>.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">2</div>
+          <div class="step__body">
+            <p class="step__text">Select the <strong>payment purpose</strong> from the dropdown.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">3</div>
+          <div class="step__body">
+            <p class="step__text"><strong>Generate a QR Code</strong> and scan it — or tap <strong>Pay via UPI App</strong>.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">4</div>
+          <div class="step__body">
+            <p class="step__text">Confirm and <strong>complete the payment</strong> inside your UPI app.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">5</div>
+          <div class="step__body">
+            <p class="step__text">Take a <strong>screenshot</strong> of the payment confirmation.</p>
+          </div>
+        </li>
+        <li class="step step--last">
+          <div class="step__num" aria-hidden="true">6</div>
+          <div class="step__body">
+            <p class="step__text">Send the screenshot <strong>via WhatsApp</strong> if requested.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+
+    <!-- ==================== AMOUNT CARD ==================== -->
+    <section class="card amount-card" aria-labelledby="payment-details-heading">
+      <h2 class="amount-card__heading" id="payment-details-heading">Payment Details</h2>
+
+      <!-- Customer Name -->
+      <div class="field" id="field-name">
+        <label class="field__label" for="customer-name">
+          <i data-lucide="user" class="field__label-icon" aria-hidden="true"></i>
+          Customer Name <span class="field__optional">(optional)</span>
+        </label>
+        <input
+          id="customer-name"
+          type="text"
+          class="field__input field__input--text"
+          placeholder="Your full name"
+          maxlength="60"
+          autocomplete="name"
+          aria-label="Enter your name"
+        />
+      </div>
+
+      <!-- Amount -->
+      <div class="field" id="field-amount">
+        <label class="field__label" for="amount-input">
+          <i data-lucide="indian-rupee" class="field__label-icon" aria-hidden="true"></i>
+          Enter Amount <span class="field__required" aria-hidden="true">*</span>
+        </label>
+        <div class="field__input-wrap">
+          <span class="field__prefix" aria-hidden="true">₹</span>
+          <input
+            id="amount-input"
+            type="number"
+            class="field__input"
+            placeholder="e.g. 500"
+            min="1"
+            max="100000"
+            step="1"
+            inputmode="numeric"
+            autocomplete="off"
+            aria-describedby="amount-error amount-hint"
+            aria-required="true"
+          />
+        </div>
+        <p class="field__error" id="amount-error" role="alert" aria-live="assertive" hidden></p>
+        <p class="field__hint"  id="amount-hint">Min ₹1 &middot; Max ₹1,00,000 &middot; Whole numbers only</p>
+      </div>
+
+      <!-- Quick Chips -->
+      <div class="chips" role="group" aria-label="Quick amount presets">
+        <button class="chip" type="button" data-amount="300"  aria-label="Set amount ₹300">₹300</button>
+        <button class="chip" type="button" data-amount="500"  aria-label="Set amount ₹500">₹500</button>
+        <button class="chip" type="button" data-amount="700"  aria-label="Set amount ₹700">₹700</button>
+        <button class="chip" type="button" data-amount="1000" aria-label="Set amount ₹1,000">₹1,000</button>
+        <button class="chip" type="button" data-amount="1500" aria-label="Set amount ₹1,500">₹1,500</button>
+      </div>
+
+      <!-- Purpose -->
+      <div class="field">
+        <label class="field__label" for="purpose-select">
+          <i data-lucide="tag" class="field__label-icon" aria-hidden="true"></i>
+          Payment Purpose
+        </label>
+        <div class="field__select-wrap">
+          <select id="purpose-select" class="field__select" aria-label="Select payment purpose">
+            <option value="Internet Bill">🌐&nbsp; Internet Bill</option>
+            <option value="Cable TV Bill">📺&nbsp; Cable TV Bill</option>
+            <option value="Recharge">🔄&nbsp; Recharge</option>
+            <option value="New Connection">🆕&nbsp; New Connection</option>
+            <option value="Other">💬&nbsp; Other</option>
+          </select>
+          <i data-lucide="chevron-down" class="field__select-arrow" aria-hidden="true"></i>
+        </div>
+      </div>
+    </section><!-- /.amount-card -->
+
+      </div><!-- /.pay-grid__left -->
+
+      <!-- RIGHT COLUMN: tab switcher + panels + summary -->
+      <div class="pay-grid__right">
+
+
+    <!-- ==================== TAB SWITCHER ==================== -->
+    <div class="tab-container" role="tablist" aria-label="Choose payment method">
+      <button id="tab-qr"  class="tab tab--active" role="tab"
+              aria-selected="true"  aria-controls="panel-qr"  type="button">
+        <i data-lucide="qr-code" aria-hidden="true"></i>
+        Generate QR
+      </button>
+      <button id="tab-upi" class="tab"            role="tab"
+              aria-selected="false" aria-controls="panel-upi" type="button">
+        <i data-lucide="credit-card" aria-hidden="true"></i>
+        Pay via UPI App
+      </button>
+    </div>
+
+
+    <!-- ==================== TAB PANEL 1 — GENERATE QR ==================== -->
+    <section id="panel-qr" class="tab-panel tab-panel--active" role="tabpanel" aria-labelledby="tab-qr">
+
+      <!-- Desktop hint (shown only on desktop via JS) -->
+      <div id="desktop-hint" class="device-hint device-hint--desktop" hidden>
+        <i data-lucide="monitor" aria-hidden="true"></i>
+        <p>You&rsquo;re on a desktop. Scan the QR below using your phone&rsquo;s UPI app.</p>
+      </div>
+
+      <!-- Generate Button -->
+      <button
+        id="btn-generate-qr"
+        class="btn btn--primary btn--full"
+        type="button"
+        onclick="generateQR()"
+        aria-label="Generate QR code for this payment"
+      >
+        <i data-lucide="qr-code" aria-hidden="true"></i>
+        Generate QR
+      </button>
+
+      <!-- QR Result Card -->
+      <div id="qr-result-card" class="card qr-result-card" hidden aria-label="Generated payment QR code">
+
+        <!-- QR Frame -->
+        <div class="qr-display">
+          <div class="qr-display__badge" aria-hidden="true">
+            <i data-lucide="shield-check"></i> Secure Payment
+          </div>
+          <div class="qr-display__frame">
+            <div id="qr-canvas-container" aria-label="QR code image"></div>
+          </div>
+          <p class="qr-display__hint">
+            <i data-lucide="smartphone" aria-hidden="true"></i>
+            Open any UPI app and scan to pay
+          </p>
+        </div>
+
+        <!-- QR details strip -->
+        <div class="qr-summary">
+          <div class="qr-summary__row">
+            <span class="qr-summary__label">Amount</span>
+            <span class="qr-summary__value qr-summary__value--amount" id="qr-amount-display">—</span>
+          </div>
+          <div class="qr-summary__row">
+            <span class="qr-summary__label">UPI ID</span>
+            <span class="qr-summary__value qr-summary__value--mono">tradesnitin1-1@okicici</span>
+          </div>
+          <div class="qr-summary__row">
+            <span class="qr-summary__label">Receiver</span>
+            <span class="qr-summary__value">Nitin Trades</span>
+          </div>
+          <div class="qr-summary__row">
+            <span class="qr-summary__label">Purpose</span>
+            <span class="qr-summary__value" id="qr-purpose-display">—</span>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="qr-actions">
+          <button id="btn-download-qr" class="btn btn--action-sm btn--download" type="button"
+                  onclick="downloadQR()" aria-label="Download QR code as PNG">
+            <i data-lucide="download" aria-hidden="true"></i> Download QR
+          </button>
+          <button id="btn-share-qr" class="btn btn--action-sm btn--share" type="button"
+                  onclick="sharePayment()" aria-label="Share payment request" hidden>
+            <i data-lucide="share-2" aria-hidden="true"></i> Share
+          </button>
+        </div>
+
+        <!-- Frontend notice -->
+        <div class="notice" role="note">
+          <i data-lucide="info" aria-hidden="true"></i>
+          <!--
+            FRONTEND LIMITATION:
+            Payment success cannot be verified on this page.
+            This is a frontend-only implementation using UPI deep links and QR codes.
+            For automated payment verification you would need:
+              - A backend with UPI webhook/callback (Razorpay, PayU, Cashfree, etc.)
+            Please confirm payments via your UPI app's transaction history.
+          -->
+          <p>After scanning &amp; paying, please share your <strong>transaction screenshot</strong> via WhatsApp.</p>
+        </div>
+      </div><!-- /#qr-result-card -->
+
+    </section><!-- /#panel-qr -->
+
+
+    <!-- ==================== TAB PANEL 2 — PAY VIA UPI APP ==================== -->
+    <section id="panel-upi" class="tab-panel" role="tabpanel" aria-labelledby="tab-upi" hidden>
+
+      <!-- Mobile highlight hint (shown via JS on mobile) -->
+      <div id="mobile-hint" class="device-hint device-hint--mobile" hidden>
+        <i data-lucide="smartphone" aria-hidden="true"></i>
+        <p>You&rsquo;re on a mobile device — tap below to open your UPI app directly!</p>
+      </div>
+
+      <!-- UPI app logos -->
+      <div class="upi-apps" aria-label="Supported UPI applications">
+        <p class="upi-apps__label">Works with any UPI app</p>
+        <div class="upi-apps__row" aria-hidden="true">
+          <span class="upi-badge upi-badge--gpay"  title="Google Pay">GPay</span>
+          <span class="upi-badge upi-badge--phonepe" title="PhonePe">PhonePe</span>
+          <span class="upi-badge upi-badge--paytm"  title="Paytm">Paytm</span>
+          <span class="upi-badge upi-badge--bhim"   title="BHIM UPI">BHIM</span>
+        </div>
+      </div>
+
+      <!-- Pay Button -->
+      <button
+        id="btn-open-upi"
+        class="btn btn--primary btn--full btn--pay-upi"
+        type="button"
+        onclick="openUpiApp()"
+        aria-label="Open UPI app to pay Nitin Enterprise"
+      >
+        <i data-lucide="credit-card" aria-hidden="true"></i>
+        Pay via UPI App
+      </button>
+
+      <!-- No UPI fallback -->
+      <div id="no-upi-msg" class="no-app-msg" role="alert" aria-live="polite" hidden>
+        <i data-lucide="alert-circle" aria-hidden="true"></i>
+        <p>No UPI app detected. Copy the UPI ID and pay manually in your UPI app.</p>
+      </div>
+
+      <!-- Copy UPI ID -->
+      <button id="btn-copy-upi" class="btn btn--outline btn--full" type="button"
+              onclick="copyUpiId()" aria-label="Copy UPI ID to clipboard">
+        <i data-lucide="copy" aria-hidden="true"></i>
+        Copy UPI ID — tradesnitin1-1@okicici
+      </button>
+
+      <!-- Notice -->
+      <div class="notice" role="note">
+        <i data-lucide="info" aria-hidden="true"></i>
+        <!--
+          FRONTEND LIMITATION:
+          We cannot automatically detect or confirm payment completion.
+          Please share your transaction screenshot with Nitin Enterprise via WhatsApp.
+        -->
+        <p>After paying, send your <strong>transaction screenshot</strong> via WhatsApp for confirmation.</p>
+      </div>
+
+    </section><!-- /#panel-upi -->
+
+
+    <!-- ==================== LIVE PAYMENT SUMMARY ==================== -->
+    <section class="card summary-card" id="live-summary" aria-labelledby="summary-heading" aria-live="polite">
+      <div class="summary-card__header">
+        <i data-lucide="file-text" class="summary-card__icon" aria-hidden="true"></i>
+        <h2 class="summary-card__heading" id="summary-heading">Payment Summary</h2>
+      </div>
+      <div class="summary-rows">
+        <!-- Customer Name -->
+        <div class="srow">
+          <div class="srow__left">
+            <i data-lucide="user" aria-hidden="true"></i>
+            <span class="srow__label">Customer</span>
+          </div>
+          <span class="srow__value" id="sum-name">—</span>
+        </div>
+        <!-- Amount -->
+        <div class="srow">
+          <div class="srow__left">
+            <i data-lucide="indian-rupee" aria-hidden="true"></i>
+            <span class="srow__label">Amount</span>
+          </div>
+          <span class="srow__value srow__value--amount" id="sum-amount">—</span>
+        </div>
+        <!-- Purpose -->
+        <div class="srow">
+          <div class="srow__left">
+            <i data-lucide="tag" aria-hidden="true"></i>
+            <span class="srow__label">Purpose</span>
+          </div>
+          <span class="srow__value" id="sum-purpose">Internet Bill</span>
+        </div>
+        <!-- UPI ID -->
+        <div class="srow">
+          <div class="srow__left">
+            <i data-lucide="credit-card" aria-hidden="true"></i>
+            <span class="srow__label">UPI ID</span>
+          </div>
+          <span class="srow__value srow__value--mono">tradesnitin1-1@okicici</span>
+        </div>
+        <!-- Receiver -->
+        <div class="srow srow--last">
+          <div class="srow__left">
+            <i data-lucide="building-2" aria-hidden="true"></i>
+            <span class="srow__label">Receiver</span>
+          </div>
+          <span class="srow__value">Nitin Trades</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== WHATSAPP SCREENSHOT BUTTON ==================== -->
+    <a
+      id="btn-wa-screenshot"
+      href="#"
+      class="btn btn--whatsapp-screenshot"
+      onclick="sendWhatsAppScreenshot(event)"
+      aria-label="Send payment screenshot on WhatsApp to Nitin Enterprise"
+    >
+      <!-- WhatsApp brand SVG (Lucide doesn't include branded icons) -->
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+        <path d="M16.002 2.667C8.637 2.667 2.667 8.637 2.667 16c0 2.348.627 4.551 1.72 6.455L2.667 29.333l7.099-1.702A13.28 13.28 0 0 0 16.002 29.333c7.363 0 13.331-5.97 13.331-13.333S23.365 2.667 16.002 2.667zm7.434 18.394c-.313.878-1.547 1.607-2.535 1.818-.676.144-1.558.258-4.526-1.09-3.8-1.635-6.25-5.49-6.44-5.748-.185-.257-1.517-2.02-1.517-3.853 0-1.833.952-2.73 1.29-3.106.31-.344.678-.43.903-.43l.647.012c.208.01.487-.079.762.582.283.68.962 2.34 1.047 2.543.085.203.141.44.028.706-.113.267-.17.432-.338.664-.168.233-.354.52-.505.698-.168.196-.343.407-.147.797.196.39.872 1.437 1.874 2.326 1.287 1.148 2.372 1.503 2.762 1.671.39.168.617.14.845-.084.228-.225.973-1.136 1.23-1.526.258-.39.517-.324.872-.195.355.13 2.25 1.061 2.637 1.254.388.195.647.292.742.454.098.163.098.944-.216 1.822z"/>
+      </svg>
+      Send Payment Screenshot
+    </a>
+
+
+    <!-- ==================== SUPPORTED UPI APPS STRIP ==================== -->
+    <div class="secure-strip" aria-label="Supported payment apps and security">
+      <div class="secure-strip__badges" aria-hidden="true">
+        <span class="upi-badge upi-badge--gpay">GPay</span>
+        <span class="upi-badge upi-badge--phonepe">PhonePe</span>
+        <span class="upi-badge upi-badge--paytm">Paytm</span>
+        <span class="upi-badge upi-badge--bhim">BHIM</span>
+        <span class="upi-badge upi-badge--any">+ Any UPI</span>
+      </div>
+      <div class="secure-strip__trust">
+        <i data-lucide="shield-check" aria-hidden="true"></i>
+        <span>100% Secure UPI Payment</span>
+      </div>
+    </div><!-- /.secure-strip -->
+
+      </div><!-- /.pay-grid__right -->
+    </div><!-- /.pay-grid -->
+
+
+    <!-- ===== DESKTOP: 2-column bottom grid (FAQ + Contact) ===== -->
+    <div class="bottom-grid">
+
+    <!-- ==================== FAQ ==================== -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <div class="faq-section__head">
+        <i data-lucide="help-circle" class="faq-section__icon" aria-hidden="true"></i>
+        <h2 class="faq-section__heading" id="faq-heading">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>How do I pay using UPI?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Enter your payment amount and purpose above. Then either tap <strong>Generate QR</strong> and scan it with your UPI app, or tap <strong>Pay via UPI App</strong> to open your app directly with the amount pre-filled.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>Which UPI apps are supported?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>All apps registered on the UPI network are supported — including Google Pay, PhonePe, Paytm, BHIM, Amazon Pay, iMobile, and any bank's UPI app.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>Can I pay using Google Pay?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Yes! Google Pay is fully supported. You can scan the QR code directly from the Google Pay app, or use the <strong>Pay via UPI App</strong> button which may automatically open Google Pay on your device.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>Can I pay using PhonePe?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Yes! PhonePe is fully supported. Open PhonePe, go to <strong>Scan &amp; Pay</strong>, and scan the generated QR code. Alternatively, use the <strong>Pay via UPI App</strong> button.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>What if my payment fails?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Don&rsquo;t worry — if a payment fails, no money is deducted from your account. You can try again after a few minutes. If the issue persists, please contact us on WhatsApp and we will assist you.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__question">
+            <span>How do I contact support?</span>
+            <i data-lucide="chevron-down" class="faq-item__arrow" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-item__answer">
+            <p>You can reach us in two ways:</p>
+            <ul>
+              <li>📞 Call: <a href="tel:+918630473928">+91 86304 73928</a></li>
+              <li>💬 WhatsApp: <a href="https://wa.me/918630473928" target="_blank" rel="noopener noreferrer">Chat with us</a></li>
+            </ul>
+            <p>We are available Monday–Saturday, 9 AM – 7 PM.</p>
+          </div>
+        </details>
+
+      </div><!-- /.faq-list -->
+    </section><!-- /.faq-section -->
+
+
+    <!-- ==================== CONTACT CARD ==================== -->
+    <section class="card contact-card" aria-labelledby="contact-heading">
+      <div class="contact-card__header">
+        <i data-lucide="building-2" class="contact-card__icon" aria-hidden="true"></i>
+        <h2 class="contact-card__heading" id="contact-heading">Contact Us</h2>
+      </div>
+
+      <!-- Business Name -->
+      <div class="contact-row">
+        <div class="contact-row__icon-wrap" aria-hidden="true">
+          <i data-lucide="home"></i>
+        </div>
+        <div class="contact-row__body">
+          <span class="contact-row__label">Business</span>
+          <span class="contact-row__value">Nitin Enterprise</span>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="contact-row">
+        <div class="contact-row__icon-wrap" aria-hidden="true">
+          <i data-lucide="phone"></i>
+        </div>
+        <div class="contact-row__body">
+          <span class="contact-row__label">Phone</span>
+          <a href="tel:+918630473928" class="contact-row__value contact-row__value--link"
+             aria-label="Call Nitin Enterprise">+91 86304 73928</a>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="contact-row">
+        <div class="contact-row__icon-wrap contact-row__icon-wrap--wa" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+            <path d="M16.002 2.667C8.637 2.667 2.667 8.637 2.667 16c0 2.348.627 4.551 1.72 6.455L2.667 29.333l7.099-1.702A13.28 13.28 0 0 0 16.002 29.333c7.363 0 13.331-5.97 13.331-13.333S23.365 2.667 16.002 2.667zm7.434 18.394c-.313.878-1.547 1.607-2.535 1.818-.676.144-1.558.258-4.526-1.09-3.8-1.635-6.25-5.49-6.44-5.748-.185-.257-1.517-2.02-1.517-3.853 0-1.833.952-2.73 1.29-3.106.31-.344.678-.43.903-.43l.647.012c.208.01.487-.079.762.582.283.68.962 2.34 1.047 2.543.085.203.141.44.028.706-.113.267-.17.432-.338.664-.168.233-.354.52-.505.698-.168.196-.343.407-.147.797.196.39.872 1.437 1.874 2.326 1.287 1.148 2.372 1.503 2.762 1.671.39.168.617.14.845-.084.228-.225.973-1.136 1.23-1.526.258-.39.517-.324.872-.195.355.13 2.25 1.061 2.637 1.254.388.195.647.292.742.454.098.163.098.944-.216 1.822z"/>
+          </svg>
+        </div>
+        <div class="contact-row__body">
+          <span class="contact-row__label">WhatsApp</span>
+          <a href="https://wa.me/918630473928" target="_blank" rel="noopener noreferrer"
+             class="contact-row__value contact-row__value--link"
+             aria-label="Chat on WhatsApp">+91 86304 73928</a>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="contact-row">
+        <div class="contact-row__icon-wrap" aria-hidden="true">
+          <i data-lucide="map-pin"></i>
+        </div>
+        <div class="contact-row__body">
+          <span class="contact-row__label">Address</span>
+          <span class="contact-row__value">Indra Colony, Street No. 4,<br />Rudrapur, Udham Singh Nagar — 263153</span>
+        </div>
+      </div>
+
+      <!-- UPI ID -->
+      <div class="contact-row contact-row--last">
+        <div class="contact-row__icon-wrap" aria-hidden="true">
+          <i data-lucide="credit-card"></i>
+        </div>
+        <div class="contact-row__body">
+          <span class="contact-row__label">UPI ID</span>
+          <span class="contact-row__value contact-row__value--mono">tradesnitin1-1@okicici</span>
+        </div>
+      </div>
+
+      <!-- Contact Action Buttons -->
+      <div class="contact-actions">
+        <a href="tel:+918630473928" class="btn btn--contact btn--contact-call" aria-label="Call Nitin Enterprise">
+          <i data-lucide="phone" aria-hidden="true"></i> Call Now
+        </a>
+        <a href="https://wa.me/918630473928" target="_blank" rel="noopener noreferrer"
+           class="btn btn--contact btn--contact-wa" aria-label="Chat on WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+            <path d="M16.002 2.667C8.637 2.667 2.667 8.637 2.667 16c0 2.348.627 4.551 1.72 6.455L2.667 29.333l7.099-1.702A13.28 13.28 0 0 0 16.002 29.333c7.363 0 13.331-5.97 13.331-13.333S23.365 2.667 16.002 2.667zm7.434 18.394c-.313.878-1.547 1.607-2.535 1.818-.676.144-1.558.258-4.526-1.09-3.8-1.635-6.25-5.49-6.44-5.748-.185-.257-1.517-2.02-1.517-3.853 0-1.833.952-2.73 1.29-3.106.31-.344.678-.43.903-.43l.647.012c.208.01.487-.079.762.582.283.68.962 2.34 1.047 2.543.085.203.141.44.028.706-.113.267-.17.432-.338.664-.168.233-.354.52-.505.698-.168.196-.343.407-.147.797.196.39.872 1.437 1.874 2.326 1.287 1.148 2.372 1.503 2.762 1.671.39.168.617.14.845-.084.228-.225.973-1.136 1.23-1.526.258-.39.517-.324.872-.195.355.13 2.25 1.061 2.637 1.254.388.195.647.292.742.454.098.163.098.944-.216 1.822z"/>
+          </svg>
+          WhatsApp
+        </a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Indra+Colony+Street+No+4+Rudrapur+Udham+Singh+Nagar+263153"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn--contact btn--contact-maps" aria-label="Get directions on Google Maps">
+          <i data-lucide="navigation" aria-hidden="true"></i> Directions
+        </a>
+        <button type="button" class="btn btn--contact btn--contact-copy"
+                onclick="copyUpiId()" aria-label="Copy UPI ID to clipboard">
+          <i data-lucide="copy" aria-hidden="true"></i> Copy UPI ID
+        </button>
+      </div>
+    </section><!-- /.contact-card -->
+
+    </div><!-- /.bottom-grid -->
+
+  </main><!-- /.main -->
+
+
+  <!-- ============================================================
+       STICKY BOTTOM BAR
+  ============================================================ -->
+  <div class="sticky-bar" role="complementary" aria-label="Payment status">
+    <div class="sticky-bar__info">
+      <span class="sticky-bar__label">You Pay</span>
+      <span class="sticky-bar__amount" id="sticky-amount">₹ —</span>
+    </div>
+    <a href="https://wa.me/918630473928" target="_blank" rel="noopener noreferrer"
+       class="sticky-bar__help" aria-label="Get help on WhatsApp">
+      <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+        <path d="M16.002 2.667C8.637 2.667 2.667 8.637 2.667 16c0 2.348.627 4.551 1.72 6.455L2.667 29.333l7.099-1.702A13.28 13.28 0 0 0 16.002 29.333c7.363 0 13.331-5.97 13.331-13.333S23.365 2.667 16.002 2.667zm7.434 18.394c-.313.878-1.547 1.607-2.535 1.818-.676.144-1.558.258-4.526-1.09-3.8-1.635-6.25-5.49-6.44-5.748-.185-.257-1.517-2.02-1.517-3.853 0-1.833.952-2.73 1.29-3.106.31-.344.678-.43.903-.43l.647.012c.208.01.487-.079.762.582.283.68.962 2.34 1.047 2.543.085.203.141.44.028.706-.113.267-.17.432-.338.664-.168.233-.354.52-.505.698-.168.196-.343.407-.147.797.196.39.872 1.437 1.874 2.326 1.287 1.148 2.372 1.503 2.762 1.671.39.168.617.14.845-.084.228-.225.973-1.136 1.23-1.526.258-.39.517-.324.872-.195.355.13 2.25 1.061 2.637 1.254.388.195.647.292.742.454.098.163.098.944-.216 1.822z"/>
+      </svg>
+      Help
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="pay.js"></script>
+</body>
+</html>

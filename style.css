@@ -1,0 +1,1070 @@
+/* ================================================================
+   NITIN ENTERPRISE — PAYMENT LANDING PAGE
+   style.css
+   Author : Faizan Ali
+   Version: 1.0.0
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   0. CSS CUSTOM PROPERTIES (Design Tokens)
+---------------------------------------------------------------- */
+:root {
+  /* Brand Colors */
+  --color-primary:        #16A34A;
+  --color-primary-dark:   #15803D;
+  --color-primary-light:  #22C55E;
+  --color-primary-faint:  #DCFCE7;
+  --color-primary-xfaint: #F0FDF4;
+
+  /* Semantic Colors */
+  --color-whatsapp:       #25D366;
+  --color-whatsapp-dark:  #128C4A;
+  --color-call:           #3B82F6;
+  --color-call-dark:      #2563EB;
+
+  /* Neutrals */
+  --color-bg:             #F9FAFB;
+  --color-surface:        #FFFFFF;
+  --color-text:           #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary:  #9CA3AF;
+  --color-border:         #E5E7EB;
+  --color-border-light:   #F3F4F6;
+
+  /* Typography */
+  --font-family:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs:   0.75rem;   /* 12px */
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-md:   1.125rem;  /* 18px */
+  --font-size-lg:   1.25rem;   /* 20px */
+  --font-size-xl:   1.5rem;    /* 24px */
+  --font-size-2xl:  1.875rem;  /* 30px */
+  --font-size-3xl:  2.25rem;   /* 36px */
+
+  /* Spacing */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+  --shadow-lg:   0 10px 32px rgba(0,0,0,.10), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-card: 0 2px 12px rgba(0,0,0,.07);
+  --shadow-card-hover: 0 8px 28px rgba(0,0,0,.12);
+  --shadow-primary: 0 4px 20px rgba(22, 163, 74, .28);
+  --shadow-primary-hover: 0 8px 28px rgba(22, 163, 74, .38);
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   350ms ease;
+
+  /* Layout */
+  --max-width: 440px;
+  --page-padding: var(--space-4);
+}
+
+/* ----------------------------------------------------------------
+   1. RESET & BASE
+---------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Extra padding so FABs don't overlap content */
+  padding-bottom: 90px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Remove default button styles */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ----------------------------------------------------------------
+   2. LAYOUT — PAGE WRAPPER
+---------------------------------------------------------------- */
+.page-wrapper {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding) var(--space-12);
+}
+
+/* Hero grid: single column by default (mobile) */
+.hero-grid {
+  display: block;
+}
+
+.hero-grid__left,
+.hero-grid__right {
+  display: block;
+}
+
+/* ----------------------------------------------------------------
+   3. SECTION UTILITY
+---------------------------------------------------------------- */
+.section {
+  margin-top: var(--space-8);
+}
+
+.section__heading {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-1);
+}
+
+.section__sub {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+/* ----------------------------------------------------------------
+   4. CARD BASE
+---------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
+  transition: box-shadow var(--transition-normal),
+              transform var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------------------
+   5. HERO SECTION
+---------------------------------------------------------------- */
+.hero {
+  padding: var(--space-10) 0 var(--space-6);
+  text-align: center;
+}
+
+/* Verified Badge */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--color-primary-faint);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-5);
+  border: 1px solid rgba(22,163,74,.15);
+}
+
+/* Logo Circle */
+.hero__logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.hero__logo {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: #fff;
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-primary);
+}
+
+/* Title */
+.hero__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  line-height: 1.2;
+}
+
+/* Subtitle (tagline) */
+.hero__subtitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.01em;
+}
+
+/* Description */
+.hero__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  max-width: 280px;
+  margin: 0 auto var(--space-5);
+}
+
+/* CTA button group in hero */
+.hero__cta-group {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.hero__cta-group .btn--primary { max-width: 320px; }
+
+/* ----------------------------------------------------------------
+   6. QR CARD
+---------------------------------------------------------------- */
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+/* QR Image Container */
+.qr-card__image-wrap {
+  width: 220px;
+  height: 220px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-border-light);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.qr-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* UPI ID Display */
+.qr-card__upi-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.qr-card__upi-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.qr-card__upi-id {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  letter-spacing: 0.01em;
+  background: var(--color-primary-xfaint);
+  border: 1px solid var(--color-primary-faint);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+}
+
+/* ----------------------------------------------------------------
+   7. BUTTONS
+---------------------------------------------------------------- */
+
+/* --- Primary CTA --- */
+.btn--primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-primary);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background var(--transition-fast);
+  letter-spacing: 0.01em;
+  min-height: 54px; /* Large touch target */
+}
+
+.btn--primary:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  box-shadow: var(--shadow-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn--primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-primary);
+}
+
+/* ---------------------------------------------------------------
+   Blue Primary Button — Quick Pay
+   Same layout as .btn--primary, blue colour, card-style radius.
+--------------------------------------------------------------- */
+.btn--blue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: #ffffff;
+  background: #2563EB;
+  border: none;
+  border-radius: var(--radius-lg);        /* 16px — matches card-style, not pill */
+  box-shadow: 0 4px 20px rgba(37, 99, 235, .28);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background var(--transition-fast);
+  letter-spacing: 0.01em;
+  min-height: 54px;
+}
+
+.btn--blue:hover {
+  background: #1D4ED8;
+  box-shadow: 0 8px 28px rgba(37, 99, 235, .38);
+  transform: translateY(-1px);
+}
+
+.btn--blue:active {
+  background: #1E40AF;
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, .28);
+}
+
+/* ---------------------------------------------------------------
+   QR Card Button Pair
+   Always vertical (Smart Pay on top, Quick Pay below).
+   Mobile + Desktop: single column, full width, 14px radius.
+--------------------------------------------------------------- */
+.qr-card__btn-pair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);   /* 12px between buttons */
+  width: 100%;
+}
+
+/* Override pill radius from .btn--primary for this context */
+.qr-card__btn-pair > .btn--primary,
+.qr-card__btn-pair > .btn--blue {
+  border-radius: var(--radius-lg);  /* 16px — card-style, not pill */
+  width: 100%;
+  flex: unset;
+}
+
+
+/* --- Outline (Copy) --- */
+.btn--outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-primary-xfaint);
+  border: 1.5px solid var(--color-primary-faint);
+  border-radius: var(--radius-full);
+  min-height: 40px;
+  transition: background var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+.btn--outline:hover {
+  background: var(--color-primary-faint);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:active {
+  transform: scale(0.97);
+}
+
+/* --- Action Buttons Grid (Call / WhatsApp / Maps) --- */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-bottom: 0;
+}
+
+.btn--action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  min-height: 54px;
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              filter var(--transition-fast);
+}
+
+/* Call Button */
+.btn--call {
+  background: var(--color-call);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, .30);
+}
+
+.btn--call:hover {
+  background: var(--color-call-dark);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, .40);
+  transform: translateY(-1px);
+}
+
+.btn--call:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* WhatsApp Button */
+.btn--whatsapp {
+  background: var(--color-whatsapp);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, .30);
+}
+
+.btn--whatsapp:hover {
+  background: var(--color-whatsapp-dark);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, .40);
+  transform: translateY(-1px);
+}
+
+.btn--whatsapp:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Maps / Directions Button (inside action-grid) */
+.btn--maps {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+
+.btn--maps:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn--maps:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Standalone Directions Button (full-width) */
+.btn--directions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  min-height: 54px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              transform var(--transition-fast),
+              background var(--transition-fast);
+}
+
+.btn--directions:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-xfaint);
+  box-shadow: 0 4px 16px rgba(22,163,74,.12);
+  transform: translateY(-1px);
+}
+
+.btn--directions:active {
+  transform: scale(0.98);
+}
+
+/* ----------------------------------------------------------------
+   8. BUSINESS INFO CARD — ROWS
+---------------------------------------------------------------- */
+.info-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background var(--transition-fast);
+}
+
+.info-row:hover {
+  background: var(--color-primary-xfaint);
+}
+
+.info-row--last {
+  border-bottom: none;
+}
+
+/* Icon Circle */
+.info-row__icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-faint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Content */
+.info-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0; /* allow text-overflow to work */
+}
+
+.info-row__label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.info-row__value {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.info-row__value--link {
+  color: var(--color-call);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.info-row__value--link:hover {
+  color: var(--color-call-dark);
+}
+
+.info-row__value--mono {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.03em;
+  word-break: break-all;
+}
+
+/* ----------------------------------------------------------------
+   9. NO UPI APP MESSAGE
+---------------------------------------------------------------- */
+.no-upi-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: #FFF7ED;
+  border: 1px solid #FDBA74;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  color: #9A3412;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  width: 100%;
+  text-align: left;
+}
+
+.no-upi-msg[hidden] {
+  display: none;
+}
+
+.no-upi-msg svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #EA580C;
+}
+
+/* ----------------------------------------------------------------
+   10. TOAST NOTIFICATION
+---------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  top: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: var(--color-text);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  z-index: 9999;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transition: transform var(--transition-slow),
+              opacity var(--transition-slow);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast.toast--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   11. FLOATING ACTION BUTTONS (FABs)
+---------------------------------------------------------------- */
+
+/* FAB group container (stacks them in fixed position) */
+.fab-group {
+  position: fixed;
+  bottom: var(--space-5);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  pointer-events: none; /* let clicks pass through the container */
+  z-index: 1000;
+}
+
+.fab {
+  pointer-events: auto; /* re-enable clicks on the buttons themselves */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-full);
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              filter var(--transition-fast);
+  text-decoration: none;
+}
+
+.fab:hover  { transform: scale(1.08); filter: brightness(1.05); }
+.fab:active { transform: scale(0.95); }
+
+.fab__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Call FAB */
+.fab--call {
+  background: var(--color-call);
+  box-shadow: 0 4px 20px rgba(59,130,246,.40), var(--shadow-md);
+}
+
+/* WhatsApp FAB */
+.fab--wa,
+.fab--whatsapp {
+  background: var(--color-whatsapp);
+  box-shadow: 0 4px 20px rgba(37,211,102,.40), var(--shadow-md);
+}
+
+/* ----------------------------------------------------------------
+   12. FOOTER
+---------------------------------------------------------------- */
+.footer {
+  margin-top: var(--space-12);
+  padding: var(--space-8) 0 var(--space-4);
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.footer__logo-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.02em;
+}
+
+.footer__brand-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.footer__address {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.footer__copy {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.footer__credit {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.footer__heart {
+  display: inline-block;
+}
+
+.footer__credit-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.footer__credit-link:hover {
+  color: var(--color-primary-dark);
+}
+
+/* ================================================================
+   13. RESPONSIVE LAYOUT
+   Mobile  (<768px) : mobile-first defaults already applied above
+   Tablet  (≥768px) : wider content, tablet optimisations
+   Desktop (≥1024px): true 2-column grid, premium desktop layout
+================================================================ */
+
+/* ----------------------------------------------------------------
+   MOBILE — max-width 767px (explicit touch-only tweaks)
+---------------------------------------------------------------- */
+@media (max-width: 767px) {
+  /* Extra bottom padding so FABs don't overlap content */
+  .page-wrapper { padding-bottom: 100px; }
+
+  /* On very small phones, stack action buttons */
+  @media (max-width: 400px) {
+    .action-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------
+   TABLET — 768px – 1023px
+---------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --page-padding: var(--space-8); }
+
+  body { padding-bottom: 60px; }
+
+  .page-wrapper {
+    max-width: 600px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero { padding: var(--space-12) 0 var(--space-8); }
+  .hero__title { font-size: 2.5rem; }
+
+  .qr-card__image-wrap { width: 240px; height: 240px; }
+
+  /* FABs stay visible on tablet */
+  .fab-group { display: flex; }
+}
+
+
+/* ----------------------------------------------------------------
+   DESKTOP — 1024px and above
+   LEFT column : hero + business details + action buttons
+   RIGHT column: QR card (position: sticky)
+---------------------------------------------------------------- */
+@media (min-width: 1024px) {
+
+  body {
+    background: linear-gradient(160deg, #F0FDF4 0%, #F9FAFB 50%, #EFF6FF 100%);
+    padding-bottom: 0;
+  }
+
+  /* Wide container — no card wrapper at this breakpoint */
+  .page-wrapper {
+    max-width: 1200px;
+    padding: 3rem 4rem 5rem;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* ===== 2-COLUMN HERO GRID ===== */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 460px;
+    column-gap: 4rem;
+    align-items: start;
+    margin-bottom: 0;
+  }
+
+  .hero-grid__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sticky QR card on right */
+  .hero-grid__right {
+    position: sticky;
+    top: 2rem;
+  }
+
+  /* ===== HERO — left-aligned on desktop ===== */
+  .hero {
+    text-align: left;
+    padding: 2rem 0 1rem;
+  }
+
+  .hero__logo-wrap { justify-content: flex-start; }
+
+  .hero__description {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .hero__title {
+    font-size: 3rem;
+    letter-spacing: -0.04em;
+  }
+
+  .hero__subtitle { font-size: 1.25rem; }
+
+  .hero__cta-group { justify-content: flex-start; }
+
+  /* Bigger smart pay button on desktop */
+  .btn--smart-pay { font-size: 1.0625rem; }
+
+  /* ===== SECTIONS in left column ===== */
+  .section--biz   { margin-top: var(--space-6); }
+  .section--touch { margin-top: var(--space-6); }
+
+  /* ===== QR section (right column) card styling ===== */
+  .section--qr {
+    margin-top: 0;
+    background: var(--color-surface);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+    border: 1px solid var(--color-border);
+    padding: var(--space-8);
+  }
+
+  .qr-card__image-wrap { width: 280px; height: 280px; }
+
+  /* Action grid already 3 columns globally; no override needed */
+  .btn--call, .btn--wa, .btn--maps { width: 100%; }
+
+  /* ===== Section typography ===== */
+  .section__heading { font-size: 1.5rem; }
+  .section__sub     { font-size: 1rem; }
+
+  /* ===== Info card ===== */
+  .info-card { border-radius: var(--radius-xl); }
+
+  /* ===== Hide FABs on desktop (hide the whole group) ===== */
+  .fab-group { display: none !important; }
+
+  /* ===== Hero left-alignment on desktop ===== */
+  .hero__cta-group { justify-content: flex-start; }
+  .hero__cta-group .btn--primary { max-width: 100%; }
+
+  /* ===== Footer ===== */
+  .footer { padding: var(--space-10) 0 var(--space-8); }
+}
+
+
+/* ----------------------------------------------------------------
+   LARGE DESKTOP — 1280px+ (fine-tuning)
+---------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  .page-wrapper {
+    max-width: 1280px;
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .hero-grid { column-gap: 5rem; }
+
+  .hero__title { font-size: 3.25rem; }
+}
+
+
+
+/* ----------------------------------------------------------------
+   14. ACCESSIBILITY HELPERS
+---------------------------------------------------------------- */
+
+/* Skip to main content (visible on focus) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  background: var(--color-primary);
+  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  z-index: 10000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* Visually hidden (screen reader only) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* High contrast / reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
