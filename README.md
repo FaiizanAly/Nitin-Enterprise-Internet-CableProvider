@@ -80,39 +80,6 @@ No installation required.
 
 ---
 
-## 🚀 Deployment
-
-Deploy easily on:
-
-- GitHub Pages
-- Vercel
-- Netlify
-- Any Static Hosting
-
-> HTTPS is required for full PWA functionality.
-
----
-
-## ⚙ Configuration
-
-Update your details in `pay.js`:
-
-```js
-const UPI_PA = "tradesnitin1-1@okicici";
-const UPI_PN = "Nitin Trades";
-const WA_NUMBER = "918630473928";
-```
-
-Replace:
-
-- QR Code
-- Phone Number
-- Address
-- Google Maps Link
-- Business Details
-
----
-
 ## 🔒 Privacy
 
 - No backend
@@ -129,7 +96,7 @@ All processing happens in the browser.
 
 **Faizan Ali**
 
-📷 Instagram: https://instagram.com/faiizanaly
+📷 Instagram: [FaiizanAly](https://instagram.com/faiizanaly)
 
 ---
 
